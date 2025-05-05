@@ -165,6 +165,7 @@ else:
     print("Appliances: "+str(iotAppliances)+" Setup "+str(iotSetupNets)+" Cameras "+str(iotCameraNets))
     labels = 'IoT Appliance SSIDs', 'IoT devices in setup mode', 'IoT camera networks' 
     sizes = [iotAppliances, iotSetupNets, iotCameraNets]
+
     sumSizes = 0 
     for size in sizes:
         sumSizes += size

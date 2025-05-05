@@ -62,7 +62,7 @@ def categorizeIoTdevice(mac):
     mfgr = getMfgr(mac).upper()
     print(mfgr)
     iotCameraOUIs = ["WYZE", "SKYBELL", "RING", "BLINK BY AMAZON", "ARLO", "REOLINK", "NIGHT OWL SP", "DWNET", "DURATECH"]
-    smallDeviceOUIs = ["ESPRESSIF", "SELECT COMFORT", "WIZ", "PART II RESEARCH", "LIFI LABS", "GENERAL ELECTRIC", "GE LIGHTING", "SERCOMM"]
+    smallDeviceOUIs = ["ESPRESSIF", "SELECT COMFORT", "WIZ", "PART II RESEARCH", "LIFI LABS", "GENERAL ELECTRIC", "GE LIGHTING"] 
     evChargingOUIs = ["TESLA", "NEURIO"]
     homeMgmtOUIs = ["ROBOROCK", "IROBOT", "ORBIT IRRIGATION", "RAIN BIRD"]
     securityOUIs = ["SIMPLISAFE", "ALARM.COM", "CHAMBERLAIN"]
@@ -93,12 +93,12 @@ class dataFile:
         self.securityCount = securityCount 
         self.totalIoTCount = totalIoTCount 
         self.totalDeviceCount = totalDeviceCount
-       dataFileArray = []
+dataFileArray = []
 labelArray = []
 processedFileArray = []
 
 if len(sys.argv) < 2: 
-    print("Usage: categorizeDevices.py <input binary data file 1> <input binary data file 2> .. additional binary data files ")
+    print("Usage: networksWithDevices.py <input binary data file 1> <input binary data file 2> .. additional binary data files ")
     print("To add labels, use the option -labels <label for datafile 1> <label for datafile 2> .. additional label for datafile")
      
     sys.exit(-1)
