@@ -52,6 +52,10 @@ def get_encryption(pkt):
     elt = pkt.getlayer(Dot11Elt)
     while elt:
         if elt.ID == 48:
+            rsn = pkt.getlayer(Dot11Elt, ID=48)
+            if b'\x00\x0f\xac\x08' in rsn.info:
+                return "WPA3"
+        if elt.ID == 48:
             return "WPA2"
         if elt.ID == 221 and elt.info.startswith(b"\x00P\xF2\x01"):
             return "WPA"
@@ -81,7 +85,6 @@ def getDevicesConnectedToNetworks(pcap_file):
                 if packet.info == network.ssid:
                     addSSID = False 
             if addSSID:
-                print("Probe response found - SSID: "+str(packet.info))
                 networkArray.append(Network(packet.info, get_encryption(packet)))
  
     for packet in pcap_file:
@@ -97,10 +100,7 @@ def getDevicesConnectedToNetworks(pcap_file):
         if packet.type == 0 and packet.subtype == 5: # Checking for probe-response frames 
             for network in networkArray:
                 if packet.info == network.ssid and not network.APinNetwork(packet.addr2):
-                    # print("Detected SSID: "+packet.info.decode()+" From A/P: "+packet.addr2)
-                    #netstats = packet.getlayer(Dot11Beacon).network_stats() 
-                   # print(netstats['crypto'])
-                    #network.security = str(netstats['crypto'])
+
                     network.APlist.append(packet.addr2) # build a picture of what APs are transmitting which SSIDs
 # check for packets sent to and from an AP and associate stations talking to an AP with a network 
    
@@ -110,9 +110,8 @@ def getDevicesConnectedToNetworks(pcap_file):
             for network in networkArray:
                 if packet.info == network.ssid and not network.APinNetwork(packet.addr2):
                     # print("Detected SSID: "+packet.info.decode()+" From A/P: "+packet.addr2)
-                    netstats = packet.getlayer(Dot11Beacon).network_stats() 
-                   # print(netstats['crypto'])
-                    network.security = str(netstats['crypto'])
+                    
+
                     network.APlist.append(packet.addr2) # build a picture of what APs are transmitting which SSIDs
 # check for packets sent to and from an AP and associate stations talking to an AP with a network 
     for packet in pcap_file:
@@ -154,14 +153,14 @@ def getDevicesConnectedToNetworks(pcap_file):
       
             elif toDS and fromDS:
                 #If both to/from DS flags raised, mesh network, both sides AP in same network
-                print ("Both flags raised!")
+                #print ("Both flags raised!")
                 for network in networkArray:
                     if network.APinNetwork(packet.addr1) or network.APinNetwork(packet.addr2):
                         network.isMesh = True 
 
   
             if not toDS and not fromDS:
-                print("Neither flag raised ?")
+                #print("Neither flag raised ?")
                 pass  
 
 
@@ -182,7 +181,6 @@ def getDevicesConnectedToNetworks(pcap_file):
 
 def netType(ssid):
     ssid = str(ssid).upper()
-    print(ssid)
     standaloneIOTsubstrings = [ "RANGE]", "OVEN]", "ARLO", "NGHUB", "LG_", "FRIDGE]", "THERMOSTAT", "WEMO.", "WASHER", "DRYER", "COOKTOP]", "SHARK_", "SPEAKER", "PWRVIEW", "NTGR_VMB", "TESLAWALLCONNECTOR", "NESTHUB", "SMART BULB", "CHIMEPRO", "WYZE", "TESLAPV", "LEDNET", "FS FORTH-SYSTEME", "LINKSPRITE", "WHITE RODGERS"] #substrings that indicate a likely IOT network
     printerSubstrings = ["EPSON", "PRINT-", "OFFICEJET", "ENVY", "-HP", "LASERJET", "DESKJET", "PRINTER", "BROTHER", "SERIES", "PHOTOSMART"] 
     for name in printerSubstrings:

@@ -173,7 +173,7 @@ else:
         if OUI.name != "Unknown":
             outputFile.write("Name: "+OUI.name+" OUI: "+OUI.oui+" Count: "+str(OUI.count)+" \n")
     print("Total device count: "+str(totalDeviceCount)+" Total IoT device count: "+str(totalIoTcount))
-    print("Total network count: "+str(len(networkArray))+" Total IoT SSID count: "+str(len(iotNetworkArray))+"Total std. network count: "+str(len(standardNetworkArray)))
+    print("Total network count: "+str(len(networkArray))+" Total IoT SSID count: "+str(len(iotNetworkArray))+" Total std. network count: "+str(len(standardNetworkArray)))
             
 
 
