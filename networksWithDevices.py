@@ -93,8 +93,7 @@ class dataFile:
         self.securityCount = securityCount 
         self.totalIoTCount = totalIoTCount 
         self.totalDeviceCount = totalDeviceCount
-        # rework the workings here to count SSID with each class of device, *not*  the number of each device type 
-dataFileArray = []
+       dataFileArray = []
 labelArray = []
 processedFileArray = []
 
@@ -193,7 +192,7 @@ df = pd.DataFrame(x,
                  index=y,
                  columns=pd.Index(['Cams', 'Pwr', 'EV.', 'HmMnt.', 'Sec.', 'GenIoT'], 
                  name='SSID with types of IoT devices')).round(2)
-
+ # print info to console 
 
 df.plot(kind='bar',figsize=(10,4), width=.75)
 
