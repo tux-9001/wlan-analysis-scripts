@@ -94,7 +94,7 @@ else:
             labelArray.append(string) 
 
     
-    #TODO: Move this logic into a loop. 
+    labelArrayCtr = 0 # increment thru labelarray 
     for file in dataFileArray:
         print("Loading file")
         networkArray = pickle.load(file) 
@@ -114,7 +114,10 @@ else:
                 if iotInNet(network) > 3 and iotInNet(network) <= 6: 
                     fourto6IoTdevices += 1 
                 if iotInNet(network) > 6: 
-                    sixPlusIoT += 1 
+                    sixPlusIoT += 1
+        if labelArray is not None: 
+            print(labelArray[labelArrayCtr])
+            labelArrayCtr += 1 
         print("Zero IoT devices : "+str(zeroIoTdevices))
         print("1-3 IoT devices : "+str(oneto3IoTdevices))
         print("4-6 IoT devices : "+str(fourto6IoTdevices))
